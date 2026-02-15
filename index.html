@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSCP 2106 - Саясаттану | Толық Оқыту Платформасы</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-navy: #0a1628;
+            --rich-blue: #1e3a8a;
+            --gold: #c9a858;
+            --light-gold: #e5d5a1;
+            --cream: #faf8f3;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--rich-blue) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(201, 168, 88, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(201, 168, 88, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 6%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .hero {
+            padding: 4rem 6% 5rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+        
+        .hero .course-code {
+            color: var(--gold);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 1rem auto;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 2rem auto 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: var(--gold);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 6%;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--deep-navy);
+            font-weight: 700;
+        }
+        
+        .weeks-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .week-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .week-card.completed {
+            border-color: var(--success);
+        }
+        
+        .week-header {
+            background: linear-gradient(135deg, var(--deep-navy), var(--rich-blue));
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .week-number {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .week-badge {
+            background: rgba(201, 168, 88, 0.2);
+            color: var(--gold);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .week-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .expand-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .week-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .week-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .week-card.expanded .week-content {
+            max-height: 4000px;
+        }
+        
+        .week-body {
+            padding: 2.5rem;
+        }
+        
+        .videos-section {
+            margin-bottom: 2rem;
+        }
+        
+        .videos-section h3 {
+            color: var(--deep-navy);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .video-card {
+            background: var(--cream);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--gold);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            padding-top: 56.25%;
+            background: linear-gradient(135deg, var(--deep-navy), var(--rich-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--rich-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-icon:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: white;
+        }
+        
+        .video-info {
+            padding: 1.5rem;
+        }
+        
+        .video-info h4 {
+            color: var(--deep-navy);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .video-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .video-duration {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .test-section {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+        }
+        
+        .test-section h3 {
+            color: var(--deep-navy);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .question {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--border);
+        }
+        
+        .question-text {
+            font-weight: 600;
+            color: var(--deep-navy);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .option {
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .option:hover {
+            background: white;
+            border-color: var(--gold);
+        }
+        
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .option.correct {
+            background: #d1fae5;
+            border-color: var(--success);
+        }
+        
+        .option.incorrect {
+            background: #fee2e2;
+            border-color: var(--error);
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gold);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #b89748;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text-dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        .test-result {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .test-result.show {
+            display: block;
+        }
+        
+        .result-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .result-message {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .result-feedback {
+            color: var(--text-light);
+        }
+        
+        footer {
+            background: var(--deep-navy);
+            color: white;
+            padding: 2rem 6%;
+            text-align: center;
+        }
+        
+        footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .week-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎓 САЯСАТТАНУ</div>
+            <ul class="nav-links">
+                <li><a href="#басты">Басты бет</a></li>
+                <li><a href="#апталар">Барлық апталар</a></li>
+            </ul>
+        </nav>
+        
+        <div class="hero">
+            <h1><span class="course-code">PSCP 2106</span> Саясаттану</h1>
+            <p>15 апталық толық видеолекциялар және интерактивті тесттер</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container" id="апталар">
+            <h2 class="section-title">Барлық Апталар</h2>
+            
+            <div class="weeks-container">
+                <!-- Week 1 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">1-апта</span>
+                            <h3 class="week-title">Саясаттану пәні, теориялық негіздері және әдістері</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саясаттану ғылымының дамуы</h4>
+                                            <p>Саясаттанудың пәні, объектісі және қызметтері</p>
+                                            <span class="video-duration">45 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси зерттеу әдістері</h4>
+                                            <p>Салыстырмалы әдіс және кроссұлттық талдау</p>
+                                            <span class="video-duration">40 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 1 апта</h3>
+                                <form class="test-form" data-week="1">
+                                    <div class="question">
+                                        <div class="question-text">1. Саясаттанудың негізгі зерттеу пәні қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q1_1" value="a">
+                                                <span>Экономикалық қатынастар</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_1" value="b">
+                                                <span>Билік және оның құрылымы</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_1" value="c">
+                                                <span>Әдебиет пен өнер</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Салыстырмалы саясаттану әдісінің негізгі мақсаты не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q1_2" value="a">
+                                                <span>Тек бір елдің саясатын зерттеу</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_2" value="b">
+                                                <span>Әр түрлі елдердің саяси жүйелерін салыстыру</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_2" value="c">
+                                                <span>Тарихи оқиғаларды зерттеу</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Кроссұлттық зерттеулер не үшін қажет?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q1_3" value="a">
+                                                <span>Тек статистика жинау үшін</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_3" value="b">
+                                                <span>Әр түрлі мәдениеттердегі саяси құбылыстарды салыстыру</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q1_3" value="c">
+                                                <span>Тек теориялық білім беру</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 2 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">2-апта</span>
+                            <h3 class="week-title">Саяси билік және саяси жүйелер</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси билік түсінігі</h4>
+                                            <p>Билік ұғымы, заңдылық және билік тармақтары</p>
+                                            <span class="video-duration">50 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси жүйе теориясы</h4>
+                                            <p>Саяси жүйелердің құрылымы және классификациясы</p>
+                                            <span class="video-duration">45 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 2 апта</h3>
+                                <form class="test-form" data-week="2">
+                                    <div class="question">
+                                        <div class="question-text">1. Саяси билік дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q2_1" value="a">
+                                                <span>Тек экономикалық күш</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_1" value="b">
+                                                <span>Қоғамды басқару және ресурстарды бөлу қабілеті</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_1" value="c">
+                                                <span>Тек әскери күш</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Билік тармақтарының бөлінуі неге қажет?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q2_2" value="a">
+                                                <span>Басқаруды қиындату үшін</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_2" value="b">
+                                                <span>Билік концентрациясын болдырмау және тепе-теңдік жасау</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_2" value="c">
+                                                <span>Партияларды көбейту үшін</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Саяси жүйенің негізгі элементтері қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q2_3" value="a">
+                                                <span>Тек үкімет</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_3" value="b">
+                                                <span>Институттар, нормалар, қатынастар, мәдениет</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q2_3" value="c">
+                                                <span>Тек заңдар</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 3 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">3-апта</span>
+                            <h3 class="week-title">Саяси режимдер: типологиясы және ерекшеліктері</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси режимдердің классификациясы</h4>
+                                            <p>Демократия, авторитаризм, тоталитаризм</p>
+                                            <span class="video-duration">55 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Авторитарлық режимдер</h4>
+                                            <p>Түрлері, ерекшеліктері және қазіргі көрінісі</p>
+                                            <span class="video-duration">48 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 3 апта</h3>
+                                <form class="test-form" data-week="3">
+                                    <div class="question">
+                                        <div class="question-text">1. Авторитарлық режимнің негізгі белгісі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q3_1" value="a">
+                                                <span>Толық демократия</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_1" value="b">
+                                                <span>Биліктің шектелмеген шоғырлануы</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_1" value="c">
+                                                <span>Көп партиялық жүйе</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Тоталитаризм мен авторитаризмнің айырмашылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q3_2" value="a">
+                                                <span>Айырмашылық жоқ</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_2" value="b">
+                                                <span>Тоталитаризм жеке өмірді де бақылайды</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_2" value="c">
+                                                <span>Авторитаризм неғұрлым қатаң</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Өтпелі режим дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q3_3" value="a">
+                                                <span>Тұрақты демократия</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_3" value="b">
+                                                <span>Бір режимнен екіншіге өту кезеңі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q3_3" value="c">
+                                                <span>Әскери диктатура</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 4 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">4-апта</span>
+                            <h3 class="week-title">Демократия теориясы және үлгілері</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Демократия теориялары</h4>
+                                            <p>Демократияның түрлері және негізгі принциптері</p>
+                                            <span class="video-duration">52 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Демократизация үдерістері</h4>
+                                            <p>Демократиялық транзиттер және индекстер</p>
+                                            <span class="video-duration">47 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 4 апта</h3>
+                                <form class="test-form" data-week="4">
+                                    <div class="question">
+                                        <div class="question-text">1. Демократияның негізгі принциптері қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q4_1" value="a">
+                                                <span>Тек көпшілік билігі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_1" value="b">
+                                                <span>Халық егемендігі, құқықтық мемлекет, адам құқықтары</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_1" value="c">
+                                                <span>Тек сайлау</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Тікелей демократия мен өкілді демократияның айырмашылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q4_2" value="a">
+                                                <span>Айырмашылық жоқ</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_2" value="b">
+                                                <span>Тікелейде халық өзі шешім қабылдайды</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_2" value="c">
+                                                <span>Өкілді демократия жақсырақ</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Демократизация үдерісінің негізгі кезеңдері қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q4_3" value="a">
+                                                <span>Тек сайлау</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_3" value="b">
+                                                <span>Либерализация, транзит, консолидация</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q4_3" value="c">
+                                                <span>Тек реформалар</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 5 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">5-апта</span>
+                            <h3 class="week-title">Саяси транзитология</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Транзитология теориясы</h4>
+                                            <p>Саяси транзитологияның қалыптасуы және дамуы</p>
+                                            <span class="video-duration">50 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Посткеңестік транзиттер</h4>
+                                            <p>Демократиялық транзиттерді зерттеу көзқарастары</p>
+                                            <span class="video-duration">46 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 5 апта</h3>
+                                <form class="test-form" data-week="5">
+                                    <div class="question">
+                                        <div class="question-text">1. Транзитология қандай үдерістерді зерттейді?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q5_1" value="a">
+                                                <span>Тек экономикалық өзгерістер</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_1" value="b">
+                                                <span>Саяси режимдердің өзгеруі және өтпелі кезеңдер</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_1" value="c">
+                                                <span>Тек әлеуметтік мәселелер</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Посткеңестік елдердің транзиттік ерекшеліктері қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q5_2" value="a">
+                                                <span>Ерекшеліктер жоқ</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_2" value="b">
+                                                <span>Қос транзит: саяси және экономикалық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_2" value="c">
+                                                <span>Тек экономикалық</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Транзиттік үдерістердің негізгі факторлары қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q5_3" value="a">
+                                                <span>Тек экономика</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_3" value="b">
+                                                <span>Элиталар, институттар, азаматтық қоғам</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q5_3" value="c">
+                                                <span>Тек халықаралық қысым</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 6 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">6-апта</span>
+                            <h3 class="week-title">Саяси партиялар және партиялық жүйелер</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси партиялар теориясы</h4>
+                                            <p>Партиялардың қалыптасуы, түрлері және функциялары</p>
+                                            <span class="video-duration">48 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Партиялық жүйелер</h4>
+                                            <p>Партиялық жүйелердің классификациясы және дамуы</p>
+                                            <span class="video-duration">44 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 6 апта</h3>
+                                <form class="test-form" data-week="6">
+                                    <div class="question">
+                                        <div class="question-text">1. Саяси партияның негізгі функциясы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q6_1" value="a">
+                                                <span>Тек ақша жинау</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_1" value="b">
+                                                <span>Халық мүдделерін білдіру және билікке жету</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_1" value="c">
+                                                <span>Тек үгіт жұмыстары</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Көп партиялық жүйе қандай режимге тән?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q6_2" value="a">
+                                                <span>Тоталитаризм</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_2" value="b">
+                                                <span>Демократия</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_2" value="c">
+                                                <span>Авторитаризм</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Партиялық жүйелердің қандай түрлері бар?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q6_3" value="a">
+                                                <span>Тек бір партиялық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_3" value="b">
+                                                <span>Бір партиялық, екі партиялық, көп партиялық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q6_3" value="c">
+                                                <span>Тек көп партиялық</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 7 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">7-апта</span>
+                            <h3 class="week-title">Сайлау жүйелері</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Сайлау жүйелерінің түрлері</h4>
+                                            <p>Мажоритарлық, пропорционалдық және аралас жүйелер</p>
+                                            <span class="video-duration">51 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Сайлау жүйелерінің салдары</h4>
+                                            <p>Әр түрлі сайлау жүйелерінің саяси салдары</p>
+                                            <span class="video-duration">43 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 7 апта</h3>
+                                <form class="test-form" data-week="7">
+                                    <div class="question">
+                                        <div class="question-text">1. Мажоритарлық сайлау жүйесінде қалай жеңеді?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q7_1" value="a">
+                                                <span>Барлық дауыстың 10% алу керек</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_1" value="b">
+                                                <span>Көпшілік немесе салыстырмалы көпшілік дауыс алу</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_1" value="c">
+                                                <span>Тек партия тізімі бойынша</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Пропорционалдық жүйенің артықшылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q7_2" value="a">
+                                                <span>Жылдам нәтиже</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_2" value="b">
+                                                <span>Барлық партиялардың өкілдігін қамтамасыз етеді</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_2" value="c">
+                                                <span>Тек ірі партияларға жақсы</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Аралас сайлау жүйесі дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q7_3" value="a">
+                                                <span>Тек мажоритарлық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_3" value="b">
+                                                <span>Мажоритарлық және пропорционалдық жүйелердің үйлесімі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q7_3" value="c">
+                                                <span>Тек пропорционалдық</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 8 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">8-апта</span>
+                            <h3 class="week-title">Аралық бақылау</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Дайындық материалдары</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>1-7 апталарды қайталау</h4>
+                                            <p>Барлық тақырыптарды жүйелеу және негізгі ұғымдар</p>
+                                            <span class="video-duration">60 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Емтиханға дайындық стратегиясы</h4>
+                                            <p>Тест тапсыруға дайындық және кеңестер</p>
+                                            <span class="video-duration">30 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Аралық бақылау тесті</h3>
+                                <form class="test-form" data-week="8">
+                                    <div class="question">
+                                        <div class="question-text">1. Саясаттанудың негізгі категориялары қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q8_1" value="a">
+                                                <span>Тек экономика</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_1" value="b">
+                                                <span>Билік, мемлекет, саясат, саяси жүйе</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_1" value="c">
+                                                <span>Тек мәдениет</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Демократия мен авторитаризмнің негізгі айырмашылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q8_2" value="a">
+                                                <span>Экономикалық жүйе</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_2" value="b">
+                                                <span>Билік шоғырлануы мен халық қатысуы деңгейі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_2" value="c">
+                                                <span>Айырмашылық жоқ</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Саяси партиялардың маңызы неде?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q8_3" value="a">
+                                                <span>Тек үгіт жұмыстары</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_3" value="b">
+                                                <span>Халық пен билік арасындағы байланыс орнату</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q8_3" value="c">
+                                                <span>Тек қаржы жинау</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 9 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">9-апта</span>
+                            <h3 class="week-title">Саяси мәдениет және әлеуметтену</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси мәдениет теориясы</h4>
+                                            <p>Саяси мәдениеттің түрлері және қалыптасуы</p>
+                                            <span class="video-duration">47 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саяси әлеуметтену</h4>
+                                            <p>Саяси қатысу және әлеуметтену үдерістері</p>
+                                            <span class="video-duration">42 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 9 апта</h3>
+                                <form class="test-form" data-week="9">
+                                    <div class="question">
+                                        <div class="question-text">1. Саяси мәдениет дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q9_1" value="a">
+                                                <span>Тек өнер туындылары</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_1" value="b">
+                                                <span>Саясатқа қатысты құндылықтар, нанымдар және мінез-құлық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_1" value="c">
+                                                <span>Тек заңдар жинағы</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Саяси әлеуметтену қалай жүзеге асады?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q9_2" value="a">
+                                                <span>Тек мектепте</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_2" value="b">
+                                                <span>Отбасы, мектеп, медиа, саяси институттар арқылы</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_2" value="c">
+                                                <span>Тек үкімет арқылы</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Саяси қатысудың түрлері қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q9_3" value="a">
+                                                <span>Тек сайлау</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_3" value="b">
+                                                <span>Дауыс беру, протест, партияға қосылу, үгіт</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q9_3" value="c">
+                                                <span>Тек митинг</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 10 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">10-апта</span>
+                            <h3 class="week-title">Мемлекеттік саясат</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Мемлекеттік саясатты қалыптастыру</h4>
+                                            <p>Саясат қалыптастыру үлгілері және кезеңдері</p>
+                                            <span class="video-duration">49 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Саясатты іске асыру</h4>
+                                            <p>Мониторинг, баға беру және тиімділікті өлшеу</p>
+                                            <span class="video-duration">45 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 10 апта</h3>
+                                <form class="test-form" data-week="10">
+                                    <div class="question">
+                                        <div class="question-text">1. Мемлекеттік саясат дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q10_1" value="a">
+                                                <span>Тек заңдар</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_1" value="b">
+                                                <span>Үкіметтің белгілі мақсаттарға жету үшін іс-әрекеттері</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_1" value="c">
+                                                <span>Тек бюджет</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Саясат қалыптастыруға қатысатын актерлер кімдер?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q10_2" value="a">
+                                                <span>Тек президент</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_2" value="b">
+                                                <span>Үкімет, парламент, қызығушылық топтар, сарапшылар</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_2" value="c">
+                                                <span>Тек министрлер</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Саясатты бағалау неге қажет?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q10_3" value="a">
+                                                <span>Формальдылық үшін</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_3" value="b">
+                                                <span>Тиімділікті өлшеп, қажетті өзгерістер енгізу</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q10_3" value="c">
+                                                <span>Тек есеп беру үшін</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 11 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">11-апта</span>
+                            <h3 class="week-title">Президент институты</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Президентизм теориясы</h4>
+                                            <p>Президент институтының қалыптасуы және түрлері</p>
+                                            <span class="video-duration">53 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Посткеңестік президентизм</h4>
+                                            <p>Посткеңестік елдердегі президент билігінің ерекшеліктері</p>
+                                            <span class="video-duration">46 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 11 апта</h3>
+                                <form class="test-form" data-week="11">
+                                    <div class="question">
+                                        <div class="question-text">1. Президенттік республикада президенттің негізгі рөлі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q11_1" value="a">
+                                                <span>Тек рәміздік</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_1" value="b">
+                                                <span>Мемлекет басшысы және атқарушы биліктің басы</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_1" value="c">
+                                                <span>Тек өкіл</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Парламенттік және президенттік жүйенің айырмашылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q11_2" value="a">
+                                                <span>Айырмашылық жоқ</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_2" value="b">
+                                                <span>Атқарушы биліктің парламентке тәуелділігі деңгейі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_2" value="c">
+                                                <span>Тек атауы басқа</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Посткеңестік президентизмнің ерекшелігі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q11_3" value="a">
+                                                <span>Ерекшелік жоқ</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_3" value="b">
+                                                <span>Күшті президенттік билік және әлсіз институттар</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q11_3" value="c">
+                                                <span>Әлсіз президент</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 12 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">12-апта</span>
+                            <h3 class="week-title">Мемлекеттік құрылыс формалары</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Федерализм және унитаризм</h4>
+                                            <p>Басқару түрлерінің теориясы және салыстырмалы талдау</p>
+                                            <span class="video-duration">51 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Қазіргі заманғы үдерістер</h4>
+                                            <p>Федеративті және унитарлы құрылыстардың эволюциясы</p>
+                                            <span class="video-duration">44 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 12 апта</h3>
+                                <form class="test-form" data-week="12">
+                                    <div class="question">
+                                        <div class="question-text">1. Федеративті мемлекет дегеніміз не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q12_1" value="a">
+                                                <span>Орталықтандырылған басқару</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_1" value="b">
+                                                <span>Билік орталық пен аймақтар арасында бөлінген</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_1" value="c">
+                                                <span>Тек орталық басқарады</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Унитарлы мемлекеттің артықшылығы қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q12_2" value="a">
+                                                <span>Күрделі құрылым</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_2" value="b">
+                                                <span>Біртұтас саясат және тиімді басқару</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_2" value="c">
+                                                <span>Артықшылығы жоқ</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Федерализм қандай мемлекеттерге қажет?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q12_3" value="a">
+                                                <span>Кішкентай елдерге</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_3" value="b">
+                                                <span>Үлкен территориялы және көп ұлтты мемлекеттерге</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q12_3" value="c">
+                                                <span>Ешқандай елге қажет емес</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 13 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">13-апта</span>
+                            <h3 class="week-title">Мемлекеттік қызмет</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Видеолекциялар</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Мемқызмет теориялары</h4>
+                                            <p>Мемлекеттік қызмет үлгілері және реформалары</p>
+                                            <span class="video-duration">48 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Посткеңестік мемқызмет</h4>
+                                            <p>Посткеңестік елдердегі мемқызмет үлгілері</p>
+                                            <span class="video-duration">43 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Тест - 13 апта</h3>
+                                <form class="test-form" data-week="13">
+                                    <div class="question">
+                                        <div class="question-text">1. Мемлекеттік қызметтің негізгі мақсаты не?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q13_1" value="a">
+                                                <span>Тек жалақы алу</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_1" value="b">
+                                                <span>Қоғам мүддесіне қызмет ету және саясат іске асыру</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_1" value="c">
+                                                <span>Тек есеп жазу</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Мемқызмет реформаларының негізгі бағыты қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q13_2" value="a">
+                                                <span>Тек қызметкерлерді көбейту</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_2" value="b">
+                                                <span>Тиімділікті арттыру, жемқорлыққа қарсы күрес, цифрландыру</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_2" value="c">
+                                                <span>Тек құрылымды өзгерту</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Веберлік бюрократия үлгісінің негізі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q13_3" value="a">
+                                                <span>Хаос</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_3" value="b">
+                                                <span>Иерархия, ережелер, меритократия</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q13_3" value="c">
+                                                <span>Тек жеке байланыстар</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Week 14-15 -->
+                <div class="week-card">
+                    <div class="week-header" onclick="toggleWeek(this)">
+                        <div class="week-number">
+                            <span class="week-badge">14-15 апта</span>
+                            <h3 class="week-title">Қорытынды бақылау және емтихан</h3>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="week-body">
+                            <div class="videos-section">
+                                <h3>🎥 Қорытынды дайындық</h3>
+                                <div class="videos-grid">
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Барлық тақырыптарды қайталау</h4>
+                                            <p>Курстың толық шолуы және негізгі тұжырымдар</p>
+                                            <span class="video-duration">90 мин</span>
+                                        </div>
+                                    </div>
+                                    <div class="video-card">
+                                        <div class="video-thumbnail">
+                                            <div class="play-icon">▶</div>
+                                        </div>
+                                        <div class="video-info">
+                                            <h4>Емтихан стратегиясы</h4>
+                                            <p>Компьютерлік тестке дайындық және ұсыныстар</p>
+                                            <span class="video-duration">45 мин</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="test-section">
+                                <h3>📝 Қорытынды тест</h3>
+                                <form class="test-form" data-week="14">
+                                    <div class="question">
+                                        <div class="question-text">1. Саясаттану ғылымының объектісі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q14_1" value="a">
+                                                <span>Тек экономика</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_1" value="b">
+                                                <span>Саяси қатынастар, билік, саяси үдерістер</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_1" value="c">
+                                                <span>Тек тарих</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">2. Қазіргі заманғы демократияның негізгі қағидаттары қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q14_2" value="a">
+                                                <span>Тек көпшілік ережесі</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_2" value="b">
+                                                <span>Егемендік, құқықтық мемлекет, тепе-теңдік, плюрализм</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_2" value="c">
+                                                <span>Тек сайлау</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question">
+                                        <div class="question-text">3. Саяси институттардың негізгі рөлі қандай?</div>
+                                        <div class="options">
+                                            <label class="option">
+                                                <input type="radio" name="q14_3" value="a">
+                                                <span>Тек формальдылық</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_3" value="b">
+                                                <span>Саяси үдерістерді ұйымдастыру және тұрақтандыру</span>
+                                            </label>
+                                            <label class="option">
+                                                <input type="radio" name="q14_3" value="c">
+                                                <span>Тек есеп беру</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="test-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="checkAnswers(this)">Тексеру</button>
+                                        <button type="button" class="btn btn-secondary" onclick="resetTest(this)">Қайта бастау</button>
+                                    </div>
+                                    
+                                    <div class="test-result">
+                                        <div class="result-score"></div>
+                                        <div class="result-message"></div>
+                                        <div class="result-feedback"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025-2026 оқу жылы | Астана халықаралық университеті | PSCP 2106 Саясаттану</p>
+        <p style="margin-top: 0.5rem;">Оқытушы: Тәжіғалиева Г.Қ. | gulzira_tazihigalieva@aiu.edu.kz</p>
+    </footer>
+    
+    <script>
+        // Correct answers for all weeks
+        const correctAnswers = {
+            '1': ['b', 'b', 'b'],
+            '2': ['b', 'b', 'b'],
+            '3': ['b', 'b', 'b'],
+            '4': ['b', 'b', 'b'],
+            '5': ['b', 'b', 'b'],
+            '6': ['b', 'b', 'b'],
+            '7': ['b', 'b', 'b'],
+            '8': ['b', 'b', 'b'],
+            '9': ['b', 'b', 'b'],
+            '10': ['b', 'b', 'b'],
+            '11': ['b', 'b', 'b'],
+            '12': ['b', 'b', 'b'],
+            '13': ['b', 'b', 'b'],
+            '14': ['b', 'b', 'b']
+        };
+        
+        function toggleWeek(header) {
+            const card = header.parentElement;
+            const wasExpanded = card.classList.contains('expanded');
+            
+            // Close all cards
+            document.querySelectorAll('.week-card').forEach(c => {
+                c.classList.remove('expanded');
+            });
+            
+            // Open clicked card if it wasn't expanded
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+            }
+        }
+        
+        function checkAnswers(button) {
+            const form = button.closest('.test-form');
+            const week = form.dataset.week;
+            const questions = form.querySelectorAll('.question');
+            let score = 0;
+            let totalQuestions = questions.length;
+            
+            questions.forEach((question, index) => {
+                const selected = question.querySelector('input[type="radio"]:checked');
+                const options = question.querySelectorAll('.option');
+                
+                // Remove previous styling
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                if (selected) {
+                    const answer = selected.value;
+                    const correctAnswer = correctAnswers[week][index];
+                    
+                    if (answer === correctAnswer) {
+                        score++;
+                        selected.closest('.option').classList.add('correct');
+                    } else {
+                        selected.closest('.option').classList.add('incorrect');
+                        // Show correct answer
+                        options.forEach(opt => {
+                            if (opt.querySelector('input').value === correctAnswer) {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Show results
+            const resultDiv = form.querySelector('.test-result');
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            resultDiv.querySelector('.result-score').textContent = `${score}/${totalQuestions}`;
+            
+            let message = '';
+            let feedback = '';
+            
+            if (percentage === 100) {
+                message = '🎉 Тамаша! Барлық жауап дұрыс!';
+                feedback = 'Сіз материалды өте жақсы меңгердіңіз!';
+            } else if (percentage >= 70) {
+                message = '👏 Жақсы нәтиже!';
+                feedback = 'Материалды жақсы түсіндіңіз, бірақ кейбір тақырыптарды қайталаңыз.';
+            } else if (percentage >= 50) {
+                message = '📖 Қанағаттанарлық';
+                feedback = 'Видеолекцияларды қайта көріп, материалды қайталаңыз.';
+            } else {
+                message = '💪 Одан да жақсы болуға болады';
+                feedback = 'Материалды мұқият оқып, видеоларды көруді ұсынамыз.';
+            }
+            
+            resultDiv.querySelector('.result-message').textContent = message;
+            resultDiv.querySelector('.result-feedback').textContent = feedback;
+            resultDiv.classList.add('show');
+            
+            // Mark week as completed
+            const card = form.closest('.week-card');
+            if (percentage >= 70) {
+                card.classList.add('completed');
+            }
+            
+            // Update progress
+            updateProgress();
+            
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function resetTest(button) {
+            const form = button.closest('.test-form');
+            const questions = form.querySelectorAll('.question');
+            
+            questions.forEach(question => {
+                const options = question.querySelectorAll('.option');
+                const radios = question.querySelectorAll('input[type="radio"]');
+                
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                radios.forEach(radio => {
+                    radio.checked = false;
+                });
+            });
+            
+            const resultDiv = form.querySelector('.test-result');
+            resultDiv.classList.remove('show');
+        }
+        
+        function updateProgress() {
+            const total = document.querySelectorAll('.week-card').length;
+            const completed = document.querySelectorAll('.week-card.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Initialize progress on load
+        updateProgress();
+    </script>
+</body>
+</html>
